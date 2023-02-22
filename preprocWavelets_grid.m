@@ -290,9 +290,9 @@ for ii=1:waveletchannelnum
             senv = thisgparam(6);
             if senv<maskenv_below
                 smask = find(sum(abs(gabors),1)>masklimit);
-                %tic;
                 [chout0,chout90] = dotdelay_frames(gabors(:,smask), gtw, (S(smask,:)));
-               % t=toc
+                chout0=gather(chout0);
+                chout90=gather(chout90);
               else
                 [chout0,chout90] = dotdelay_frames(gabors, gtw, S);
             end
