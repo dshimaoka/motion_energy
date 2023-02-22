@@ -291,11 +291,11 @@ for ii=1:waveletchannelnum
             if senv<maskenv_below
                 smask = find(sum(abs(gabors),1)>masklimit);
                 [chout0,chout90] = dotdelay_frames(gabors(:,smask), gtw, (S(smask,:)));
-                chout0=gather(chout0);
-                chout90=gather(chout90);
               else
                 [chout0,chout90] = dotdelay_frames(gabors, gtw, S);
             end
+            chout0=gather(chout0);
+            chout90=gather(chout90);
         end
         switch phaseparam
             case 0
