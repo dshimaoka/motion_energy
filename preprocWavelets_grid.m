@@ -1,4 +1,4 @@
-function varargout = preprocWavelets_grid(S, params)
+function varargout = preprocWavelets_grid(S, params, useGPU)
 % Usage: [Spreproc, params] = preprocWavelets_grid(S, params);
 %
 % A script for preprocessing of stimuli using a Gabor wavelet basis set
@@ -104,6 +104,9 @@ function varargout = preprocWavelets_grid(S, params)
 % SEE ALSO: make3dgabor, preprocSpectra
 % ====================
 
+if nargin<2
+    useGPU=1;
+end
 
 % Default parameters
 % STRFlab housekeeping
@@ -196,7 +199,9 @@ if ~isfloat(S)
 end
 S = reshape(S, [prod(stimxytsize(1:2)) stimxytsize(3)]);
 
-S = gpuArray(S);
+if useGPU
+    S = gpuArray(S);
+end
 
 if params.show_or_preprocess
     if params.zeromean
@@ -282,7 +287,9 @@ for ii=1:waveletchannelnum
         lastgparam = thisgparam;
     end
     
-    gabors = gpuArray(gabors);
+    if useGPU
+        gabors = gpuArray(gabors);
+    end
     
     phaseparam = thisgparam(8);
     if params.show_or_preprocess
@@ -294,8 +301,10 @@ for ii=1:waveletchannelnum
               else
                 [chout0,chout90] = dotdelay_frames(gabors, gtw, S);
             end
-            chout0=gather(chout0);
-            chout90=gather(chout90);
+            if useGPU
+                chout0=gather(chout0);
+                chout90=gather(chout90);
+            end
         end
         switch phaseparam
             case 0
