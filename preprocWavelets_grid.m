@@ -104,7 +104,7 @@ function varargout = preprocWavelets_grid(S, params, useGPU)
 % SEE ALSO: make3dgabor, preprocSpectra
 % ====================
 
-if nargin<2
+if nargin<3
     useGPU=1;
 end
 

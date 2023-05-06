@@ -42,8 +42,14 @@ framenum=size(S,4);
 
 for ii=1:framenum
     tim = squeeze(S(:,:,:,ii));
+tic
     tim = gammacorrect(tim, params.gamma);
     cim = feval(params.colorconv, tim);
+    t=toc
+    tic
+    tim2=gpuArray(tim);
+    cim2 = gather(single(arrayfun(@rgb2gray_custom, tim2(:,:,1), tim2(:,:,2), tim2(:,:,3))));
+    t2=toc
     cstim(:,:,ii,:) = single(cim(:,:,params.colorchannels));
     progressdot(ii,500,10000,framenum);
 end
