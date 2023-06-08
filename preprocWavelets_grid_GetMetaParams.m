@@ -397,8 +397,42 @@ switch Arg
         params.phasemode = 0; % Determines how to do phase (square & sum quadrature pairs, etc)
         params.phasemode_sfmax = NaN; % No idea
         params.zeromean = 1;        
-        
-   
+    case 12
+        % larger motion energy model 
+        % (as in Nishimoto et al 2011)
+        % STRFlab conventions, housekeeping
+        params.class = 'preprocWavelets_grid';
+        params.show_or_preprocess = 1;
+        params.wrap_all = 0;
+        params.verbose = 1;
+        params.gaborcachemode = 0;
+        params.valid_w_index = NaN;
+        % Temporal frequency params
+        params.tfdivisions = 3;
+        params.tfmax = 2.66667;
+        params.tfmin = 1.33333;
+        params.tsize = 10;
+        params.tf_gaussratio = 10; 
+        params.tenv_max = 0.3000;
+        params.zerotf = 1;
+        % Orientation/direction params
+        params.dirdivisions = 16;
+        params.local_dc = 1; 
+        params.directionSelective = 1;
+        % Spatial extent params
+        params.sfdivisions = 5;
+        params.sfmax = 32; %
+        params.sfmin = 2; %
+        params.f_step_log = 1; % Applies to both SF and TF?
+        params.std_step = 3.5; % Governs how closely spaced channels are
+        params.sf_gaussratio = 0.6000; % 81 channels @maxsf=24; 9x9 ; 13x13 @maxsf=32
+        params.fenv_mode = 0; % (whether to use fenv_max for both senv_max and tenv_max) 
+        params.senv_max = 0.3000;
+        % Nonlinearities
+        params.phasemode = 0; % Determines how to do phase (square & sum quadrature pairs, etc)
+        params.phasemode_sfmax = NaN; % No idea
+        params.zeromean = 1;        
+       
     otherwise
         error('Unknown argument!')        
 end
